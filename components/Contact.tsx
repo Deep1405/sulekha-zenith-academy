@@ -12,34 +12,28 @@ export default function Contact() {
     subject: '',
     message: '',
   });
-  const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const RECIPIENT = 'rumanath.1996@gmail.com';
+
+  function buildBody() {
+    return `Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email || 'Not provided'}\n\nMessage:\n${formData.message}`;
+  }
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitting(true);
-    setSubmitResult(null);
+    const subject = encodeURIComponent(formData.subject || 'Enquiry from Website');
+    const body = encodeURIComponent(buildBody());
+    window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+    setSubmitResult({ type: 'success', message: 'Your email application has been opened. Please click Send in your email client.' });
+    setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
+  }
 
-    try {
-      const response = await fetch('/api/enquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitResult({ type: 'success', message: 'Your enquiry has been submitted successfully! We will contact you soon.' });
-        setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
-      } else {
-        setSubmitResult({ type: 'error', message: data.error || 'Something went wrong. Please try again.' });
-      }
-    } catch (error) {
-      setSubmitResult({ type: 'error', message: 'Network error. Please check your connection and try again.' });
-    } finally {
-      setSubmitting(false);
-    }
+  function openGmail() {
+    const subject = encodeURIComponent(formData.subject || 'Enquiry from Website');
+    const body = encodeURIComponent(buildBody());
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECIPIENT}&su=${subject}&body=${body}`, '_blank');
+    setSubmitResult({ type: 'success', message: 'Gmail has been opened. Please click Send in Gmail.' });
   }
 
   return (
@@ -77,7 +71,7 @@ export default function Contact() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                     placeholder="Your name"
                   />
                 </div>
@@ -88,7 +82,7 @@ export default function Contact() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                     placeholder="Your phone number"
                   />
                 </div>
@@ -101,7 +95,7 @@ export default function Contact() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                     placeholder="Your email"
                   />
                 </div>
@@ -111,7 +105,7 @@ export default function Contact() {
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                     placeholder="Subject"
                   />
                 </div>
@@ -124,26 +118,32 @@ export default function Contact() {
                   rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors resize-none"
+                  className="input-field resize-none"
                   placeholder="How can we help you?"
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={submitting}
-                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {submitting ? 'Sending...' : 'Send Enquiry'}
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  type="submit"
+                  className="btn-primary flex-1"
+                >
+                  Send Enquiry
+                </button>
+                <button
+                  type="button"
+                  onClick={openGmail}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-all duration-300 transform hover:scale-[1.03] active:scale-[0.98] shadow-lg flex-1"
+                >
+                  Open Gmail
+                </button>
+              </div>
 
               {submitResult && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className={`text-sm font-medium text-center ${
-                    submitResult.type === 'success' ? 'text-green-500' : 'text-red-500'
-                  }`}
+                  className="text-sm font-medium text-center text-[var(--success)]"
                 >
                   {submitResult.message}
                 </motion.p>
@@ -164,7 +164,7 @@ export default function Contact() {
               <div className="space-y-4">
                 <a
                   href={`tel:${ACADEMY_INFO.phoneRaw}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-primary)] hover:bg-gold-500/10 transition-colors group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-input)] hover:bg-[var(--gold-subtle)] transition-colors group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -181,7 +181,7 @@ export default function Contact() {
                   href={ACADEMY_INFO.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-primary)] hover:bg-green-500/10 transition-colors group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-input)] hover:bg-green-500/10 transition-colors group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -196,7 +196,7 @@ export default function Contact() {
 
                 <a
                   href={`mailto:${ACADEMY_INFO.email}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-primary)] hover:bg-purple-500/10 transition-colors group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-input)] hover:bg-purple-500/10 transition-colors group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -19,15 +19,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const stored = localStorage.getItem('theme') as Theme;
-    if (stored) {
-      setTheme(stored);
-      document.documentElement.classList.toggle('dark', stored === 'dark');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-    }
+    const resolved = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(resolved);
+    document.documentElement.classList.toggle('dark', resolved === 'dark');
+    // Enable transitions only after initial theme is set to prevent FOUC
+    requestAnimationFrame(() => {
+      document.documentElement.classList.add('theme-ready');
+    });
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
@@ -38,7 +38,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   if (!mounted) {
-    return <>{children}</>;
+    return <div style={{ visibility: 'hidden' }}>{children}</div>;
   }
 
   return (

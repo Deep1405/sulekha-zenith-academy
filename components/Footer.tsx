@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ACADEMY_INFO, NAV_LINKS } from '@/lib/constants';
 
@@ -7,7 +8,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--navy)] text-white py-12 px-4">
+    <footer className="bg-[var(--bg-secondary)] border-t border-[var(--border-color)] py-12 px-4">
       <div className="container-custom mx-auto">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Academy Info */}
@@ -18,15 +19,19 @@ export default function Footer() {
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-white font-bold text-lg">
-                S
-              </div>
-              <h3 className="text-lg font-display font-bold">{ACADEMY_INFO.name}</h3>
+              <Image
+                src="/images/logo.png"
+                alt={ACADEMY_INFO.name}
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <h3 className="text-lg font-display font-bold text-[var(--text-primary)]">{ACADEMY_INFO.name}</h3>
             </div>
-            <p className="text-gray-300 text-sm leading-relaxed mb-4">
+            <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4">
               {ACADEMY_INFO.description}
             </p>
-            <div className="space-y-2 text-sm text-gray-300">
+            <div className="space-y-2 text-sm text-[var(--text-secondary)]">
               <p className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -56,13 +61,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-bold mb-4 text-[var(--text-primary)]">Quick Links</h3>
             <nav className="space-y-2">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="block text-gray-300 text-sm hover:text-[var(--gold)] transition-colors"
+                  className="block text-[var(--text-secondary)] text-sm hover:text-[var(--gold)] transition-colors"
                 >
                   {link.label}
                 </a>
@@ -77,13 +82,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-lg font-bold mb-4">Connect With Us</h3>
+            <h3 className="text-lg font-bold mb-4 text-[var(--text-primary)]">Connect With Us</h3>
             <div className="flex gap-3 mb-6">
               <a
                 href={ACADEMY_INFO.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 hover:bg-green-500/30 transition-colors"
+                className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 hover:bg-green-500/20 transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -92,7 +97,7 @@ export default function Footer() {
               </a>
               <a
                 href={`tel:${ACADEMY_INFO.phoneRaw}`}
-                className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/30 transition-colors"
+                className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 hover:bg-blue-500/20 transition-colors"
                 aria-label="Phone"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,7 +106,7 @@ export default function Footer() {
               </a>
               <a
                 href={`mailto:${ACADEMY_INFO.email}`}
-                className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 hover:bg-purple-500/30 transition-colors"
+                className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 hover:bg-purple-500/20 transition-colors"
                 aria-label="Email"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,15 +114,15 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-[var(--text-muted)]">
               Available Mon - Sat, 9:00 AM - 8:00 PM
             </p>
           </motion.div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-6 text-center">
-          <p className="text-sm text-gray-400">
+        <div className="border-t border-[var(--border-color)] pt-6 text-center">
+          <p className="text-sm text-[var(--text-muted)]">
             &copy; {currentYear} {ACADEMY_INFO.name}. All rights reserved.
           </p>
         </div>

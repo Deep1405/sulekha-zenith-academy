@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
 import { NAV_LINKS, ACADEMY_INFO } from '@/lib/constants';
 
@@ -14,27 +15,28 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const clickCountRef = useRef(0);
   const clickTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const handleLogoClick = () => {
     clickCountRef.current += 1;
-
-    if (clickTimerRef.current) {
-      clearTimeout(clickTimerRef.current);
-    }
-
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
     if (clickCountRef.current >= 5) {
       clickCountRef.current = 0;
       onAdminTrigger();
       return;
     }
-
-    clickTimerRef.current = setTimeout(() => {
-      clickCountRef.current = 0;
-    }, 2000);
+    clickTimerRef.current = setTimeout(() => { clickCountRef.current = 0; }, 2000);
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
+      {/* Scroll Progress */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--gold)] origin-left"
+        style={{ scaleX }}
+      />
+
       <div className="container-custom mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -44,9 +46,14 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-white font-bold text-lg shadow-lg">
-              S
-            </div>
+            <Image
+              src="/images/logo.png"
+              alt={ACADEMY_INFO.name}
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-cover"
+              style={{ boxShadow: 'var(--shadow-md)' }}
+            />
             <div className="hidden sm:block">
               <h1 className="text-lg font-display font-bold text-[var(--text-primary)]">
                 {ACADEMY_INFO.name}
@@ -60,7 +67,7 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
               <a
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] hover:bg-gold-500/10 transition-all duration-200"
+                className="px-3 py-2 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] hover:bg-[var(--gold-subtle)] transition-all duration-200"
               >
                 {link.label}
               </a>
@@ -72,7 +79,7 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
             {/* Theme Toggle */}
             <motion.button
               onClick={toggleTheme}
-              className="p-2 rounded-xl glass hover:scale-110 transition-transform"
+              className="p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--gold)] hover:shadow-[0_0_12px_var(--gold-subtle)] transition-all duration-200"
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle theme"
             >
@@ -90,7 +97,7 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-xl glass"
+              className="lg:hidden p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)]"
               aria-label="Toggle menu"
             >
               <svg className="w-5 h-5 text-[var(--text-primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,7 +119,7 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass border-t border-[var(--border-color)]"
+            className="lg:hidden border-t border-[var(--border-color)] bg-[var(--bg-card)]"
           >
             <nav className="container-custom mx-auto px-4 py-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
@@ -120,7 +127,7 @@ export default function Header({ onAdminTrigger }: HeaderProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] hover:bg-gold-500/10 transition-all duration-200"
+                  className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] hover:bg-[var(--gold-subtle)] transition-all duration-200"
                 >
                   {link.label}
                 </a>

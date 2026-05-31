@@ -69,7 +69,7 @@ export default function Gallery() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeCategory === category
                   ? 'bg-[var(--gold)] text-white shadow-lg'
-                  : 'glass hover:bg-gold-500/10 text-[var(--text-secondary)]'
+                  : 'glass-card hover:bg-[var(--gold-subtle)] text-[var(--text-secondary)]'
               }`}
             >
               {category}

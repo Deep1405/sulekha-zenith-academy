@@ -138,7 +138,7 @@ export default function Reviews() {
                   <h4 className="font-semibold text-[var(--text-primary)]">{review.name}</h4>
                   <StarRating rating={review.rating} />
                 </div>
-                <span className="text-xs font-medium text-[var(--gold)] bg-gold-500/10 px-2 py-1 rounded-full">
+                <span className="text-xs font-medium text-[var(--gold)] bg-[var(--gold-subtle)] px-2 py-1 rounded-full">
                   {review.category}
                 </span>
                 <p className="text-sm text-[var(--text-secondary)] mt-3 leading-relaxed">
@@ -192,7 +192,7 @@ export default function Reviews() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -211,7 +211,7 @@ export default function Reviews() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    className="input-field"
                   >
                     <option value="teaching">Teaching Quality</option>
                     <option value="environment">Learning Environment</option>
@@ -228,7 +228,7 @@ export default function Reviews() {
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] transition-colors resize-none"
+                    className="input-field resize-none"
                     placeholder="Share your experience..."
                   />
                 </div>
