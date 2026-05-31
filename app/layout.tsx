@@ -19,13 +19,23 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: 'Sulekha Zenith Academy | Personal Guidance, Strong Foundation, Bright Future',
-  description: 'Sulekha Zenith Academy - A nurturing home-based learning environment by Ruma Nath. Quality education with personal attention for students from Class I to XII in Rajpur Sonarpur, West Bengal.',
-  keywords: ['tuition', 'home tuition', 'Rajpur Sonarpur', 'education', 'Ruma Nath', 'Sulekha Zenith Academy', 'West Bengal'],
+  description: 'Personalized home-based coaching for Classes I–XII in Rajpur Sonarpur, West Bengal. Quality education with personal attention by Ruma Nath.',
+  keywords: ['Sulekha Zenith Academy', 'Coaching Centre', 'Home Tutor', 'Bengali Teacher', 'Rajpur Sonarpur Coaching', 'Classes I-XII', 'Ruma Nath', 'West Bengal', 'tuition', 'education'],
   authors: [{ name: 'Ruma Nath' }],
+  metadataBase: new URL('https://sulekha-zenith-academy.vercel.app'),
+  manifest: '/manifest.webmanifest',
   openGraph: {
     title: 'Sulekha Zenith Academy',
-    description: 'Personal Guidance, Strong Foundation, Bright Future',
+    description: 'Personalized home-based coaching for Classes I–XII in Rajpur Sonarpur, West Bengal. Personal Guidance, Strong Foundation, Bright Future.',
     type: 'website',
+    siteName: 'Sulekha Zenith Academy',
+    images: [{ url: '/icon-512.png', width: 512, height: 512, alt: 'Sulekha Zenith Academy Logo' }],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Sulekha Zenith Academy',
+    description: 'Personalized home-based coaching for Classes I–XII in Rajpur Sonarpur, West Bengal.',
+    images: ['/icon-512.png'],
   },
 };
 
