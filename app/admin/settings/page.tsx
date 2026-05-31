@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase';
-import { ACADEMY_INFO } from '@/lib/constants';
+import { ACADEMY_INFO, TEACHING_START_YEAR } from '@/lib/constants';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
@@ -14,6 +14,10 @@ export default function SettingsPage() {
     location: ACADEMY_INFO.location,
     mapCode: ACADEMY_INFO.mapCode,
     description: ACADEMY_INFO.description,
+    studentsTaught: '10',
+    teachingStartYear: String(TEACHING_START_YEAR),
+    satisfactionRate: '95',
+    dedication: '100',
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -121,6 +125,52 @@ export default function SettingsPage() {
             onChange={(e) => setSettings({ ...settings, description: e.target.value })}
             className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)] resize-none"
           />
+        </div>
+
+        {/* Achievement Stats */}
+        <div className="border-t border-[var(--border-color)] pt-4 mt-4">
+          <h3 className="text-lg font-display font-bold text-[var(--text-primary)] mb-3">🏆 Achievement Stats</h3>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Students Taught</label>
+              <input
+                type="number"
+                value={settings.studentsTaught}
+                onChange={(e) => setSettings({ ...settings, studentsTaught: e.target.value })}
+                className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Teaching Start Year</label>
+              <input
+                type="number"
+                value={settings.teachingStartYear}
+                onChange={(e) => setSettings({ ...settings, teachingStartYear: e.target.value })}
+                className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)]"
+              />
+              <p className="text-xs text-[var(--text-muted)] mt-1">
+                Years Experience = Current Year - Start Year (auto-calculated: {new Date().getFullYear() - Number(settings.teachingStartYear)} Years)
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Satisfaction Rate (%)</label>
+              <input
+                type="number"
+                value={settings.satisfactionRate}
+                onChange={(e) => setSettings({ ...settings, satisfactionRate: e.target.value })}
+                className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)]"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Dedication (%)</label>
+              <input
+                type="number"
+                value={settings.dedication}
+                onChange={(e) => setSettings({ ...settings, dedication: e.target.value })}
+                className="w-full px-4 py-2 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--gold)]"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">

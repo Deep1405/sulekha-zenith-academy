@@ -19,25 +19,33 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="glass-card p-8 md:p-12 lg:p-16 max-w-4xl mx-auto"
+          className="glass-card p-5 md:p-10 lg:p-16 max-w-4xl mx-auto"
         >
+          {/* Banner Image */}
           {/* Banner Image */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="mb-6"
+            className="mb-3 md:mb-6 flex items-center justify-center"
             whileHover={{ scale: 1.05 }}
           >
             <Image
               src="/images/banner image.png"
               alt={ACADEMY_INFO.name}
-              width={450}
-              height={450}
+              width={500}
+              height={500}
               priority
-              sizes="(max-width: 768px) 150px, (max-width: 1024px) 250px, 350px"
+              quality={100}
+              sizes="(max-width: 768px) 240px, (max-width: 1024px) 300px, 400px"
               className="object-contain mx-auto drop-shadow-[0_0_15px_rgba(212,175,55,0.2)]"
-              style={{ width: 'clamp(130px, 25vw, 380px)', height: 'auto' }}
+              style={{
+                width: 'clamp(180px, 50vw, 400px)',
+                height: 'auto',
+                maxWidth: '90%',
+                objectFit: 'contain',
+                aspectRatio: 'auto',
+              }}
             />
           </motion.div>
 
@@ -46,7 +54,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-4"
+            className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-2 md:mb-4"
           >
             <span className="text-gradient">{ACADEMY_INFO.name}</span>
           </motion.h1>
@@ -56,7 +64,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="text-lg md:text-xl lg:text-2xl text-[var(--text-secondary)] mb-8 font-light"
+            className="text-lg md:text-xl lg:text-2xl text-[var(--text-secondary)] mb-5 md:mb-8 font-light"
           >
             {ACADEMY_INFO.tagline}
           </motion.p>

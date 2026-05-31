@@ -142,10 +142,12 @@ export const FEATURES = [
   },
 ];
 
+export const TEACHING_START_YEAR = 2018;
+
 export const STATS = [
-  { label: 'Students Taught', value: 500, suffix: '+' },
+  { label: 'Students Taught', value: 10, suffix: '+' },
   { label: 'Satisfaction Rate', value: 95, suffix: '%' },
-  { label: 'Years Experience', value: 10, suffix: '+' },
+  { label: 'Years Experience', value: new Date().getFullYear() - TEACHING_START_YEAR, suffix: '+' },
   { label: 'Dedication', value: 100, suffix: '%' },
 ];
 
